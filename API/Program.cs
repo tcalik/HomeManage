@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Application.Rooms;
 using Application.Core;
+using Domain;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,15 @@ builder.Services.AddDbContext<DataContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddIdentityCore<AppUser>(opt =>
+{
+    opt.Password.RequireNonAlphanumeric = false;
+})
+    .AddEntityFrameworkStores<DataContext>()
+    .AddSignInManager<SignInManager<AppUser>>();
+
+builder.Services.AddAuthentication();
 
 builder.Services.AddMediatR(typeof(ListRooms.Handler).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
@@ -43,8 +54,9 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<DataContext>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
     await context.Database.MigrateAsync();
-    await Seed.SeedData(context);
+    await Seed.SeedData(context, userManager);
 }
 catch (Exception ex)
 {
