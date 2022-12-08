@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Persistence;
 using Application.Rooms;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {

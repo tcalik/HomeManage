@@ -5,12 +5,24 @@ using Application.Rooms;
 using Application.Core;
 using Domain;
 using Microsoft.AspNetCore.Identity;
+using API.Services;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(opt =>
+{
+    var policy= new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+    opt.Filters.Add(new AuthorizeFilter(policy));
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -27,7 +39,20 @@ builder.Services.AddIdentityCore<AppUser>(opt =>
     .AddEntityFrameworkStores<DataContext>()
     .AddSignInManager<SignInManager<AppUser>>();
 
-builder.Services.AddAuthentication();
+var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("test key123 longer"));
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(opt =>
+    {
+        opt.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = key,
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddMediatR(typeof(ListRooms.Handler).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
@@ -43,6 +68,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
