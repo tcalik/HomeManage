@@ -1,16 +1,18 @@
-﻿using System;
+﻿using Application.Profiles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain
+namespace Application.Rooms
 {
-    public class Room
+    public class RoomDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         // public string Owner { get; set; }
-        public ICollection<RoomUser> RoomUsers { get; set; } = new List<RoomUser>(); 
+        public string OwnerUsername { get; set; }
+        public ICollection<Profile> Profiles { get; set; }
     }
 }

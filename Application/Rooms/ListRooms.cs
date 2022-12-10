@@ -25,7 +25,12 @@ namespace Application.Rooms
 
             async Task<List<Room>> IRequestHandler<Query, List<Room>>.Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Rooms.ToListAsync();
+                var rooms = await _context.Rooms
+                    .Include(a => a.RoomUsers)
+                    .ThenInclude(u => u.AppUser)
+                    .ToListAsync(cancellationToken);
+
+                return rooms;
             }
         }
     }

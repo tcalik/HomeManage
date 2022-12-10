@@ -10,5 +10,6 @@ namespace Domain
     public class AppUser : IdentityUser
     {
         public string DisplayName { get; set; }
+        public ICollection<RoomUser> Rooms { get; set; }
     }
 }

@@ -27,11 +27,18 @@ namespace Persistence
             }
             if (context.Rooms.Any()) return;
 
+            /* var rooms = new List<Room>
+             {
+                 new Room {Name = "Living Room", Owner = "John"},
+                 new Room {Name = "Kitchen", Owner = "John"},
+                 new Room {Name = "Kitchen", Owner = "Eva"}
+             };*/
+
             var rooms = new List<Room>
             {
-                new Room {Name = "Living Room", Owner = "John"},
-                new Room {Name = "Kitchen", Owner = "John"},
-                new Room {Name = "Kitchen", Owner = "Eva"}
+                new Room {Name = "Living Room"},
+                new Room {Name = "Kitchen"},
+                new Room {Name = "Kitchen"}
             };
             await context.Rooms.AddRangeAsync(rooms);
             await context.SaveChangesAsync();
