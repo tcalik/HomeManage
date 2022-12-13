@@ -2,35 +2,40 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using Application.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 namespace Application.Rooms
 {
     public class ListRooms
     {
-        public class Query : IRequest<List<Room>>{}
+        public class Query : IRequest<Result<List<RoomDto>>>{}
 
-        public class Handler : IRequestHandler<Query, List<Room>>
+        public class Handler : IRequestHandler<Query, Result<List<RoomDto>>>
         {
             private readonly DataContext _context;
+            private readonly IMapper _mapper;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
-            async Task<List<Room>> IRequestHandler<Query, List<Room>>.Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<RoomDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var rooms = await _context.Rooms
-                    .Include(a => a.RoomUsers)
-                    .ThenInclude(u => u.AppUser)
+                    .ProjectTo<RoomDto>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
 
-                return rooms;
+
+                return Result<List<RoomDto>>.Success(rooms);
             }
         }
     }

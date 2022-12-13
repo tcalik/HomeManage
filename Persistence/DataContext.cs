@@ -28,7 +28,7 @@ namespace Persistence
             builder.Entity<RoomUser>()
                .HasOne(u => u.Room)
                .WithMany(a => a.RoomUsers)
-               .HasForeignKey(u => u.RoomId);
+               .HasForeignKey(aa => aa.RoomId);
 
 
 

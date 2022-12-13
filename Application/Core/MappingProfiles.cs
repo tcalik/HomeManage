@@ -14,7 +14,11 @@ namespace Application.Core
         public MappingProfiles()
         {
             CreateMap<Room, Room>();
-            CreateMap<Room, RoomDto>();
+            CreateMap<Room, RoomDto>()
+                .ForMember(d => d.OwnerUsername, o => o.MapFrom(s => s.RoomUsers.FirstOrDefault(x => x.IsOwner).AppUser.UserName));
+            CreateMap<RoomUser, Profiles.Profile>()
+                .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.AppUser.DisplayName))
+                .ForMember(d => d.Username, o => o.MapFrom(s => s.AppUser.UserName));
         }
     }
 }

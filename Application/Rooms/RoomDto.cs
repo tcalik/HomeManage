@@ -13,6 +13,6 @@ namespace Application.Rooms
         public string Name { get; set; }
         // public string Owner { get; set; }
         public string OwnerUsername { get; set; }
-        public ICollection<Profile> Profiles { get; set; }
+        public ICollection<Profile> RoomUsers { get; set; }
     }
 }
