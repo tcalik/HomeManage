@@ -11,6 +11,8 @@ namespace Domain
         public Guid Id { get; set; }
         public string Name { get; set; }
         // public string Owner { get; set; }
+        public Guid LocationId { get; set; }
+        public Location Location { get; set; }
         public ICollection<RoomUser> RoomUsers { get; set; } = new List<RoomUser>(); 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain;
 using FluentValidation;
+using Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Application.Rooms
         public RoomValidator()
         {
             RuleFor(x => x.Name).NotEmpty();
+            RuleFor(x => x.LocationId).NotEmpty();
         }
     }
 }

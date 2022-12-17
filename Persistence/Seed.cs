@@ -25,22 +25,32 @@ namespace Persistence
                     await userManager.CreateAsync(user, "Password12");
                 }
             }
-            if (context.Rooms.Any()) return;
 
-            /* var rooms = new List<Room>
-             {
-                 new Room {Name = "Living Room", Owner = "John"},
-                 new Room {Name = "Kitchen", Owner = "John"},
-                 new Room {Name = "Kitchen", Owner = "Eva"}
-             };*/
 
-            var rooms = new List<Room>
+            if (!context.Locations.Any())
             {
-                new Room {Name = "Living Room"},
-                new Room {Name = "Kitchen"},
-                new Room {Name = "Kitchen"}
-            };
-            await context.Rooms.AddRangeAsync(rooms);
+                var locations = new List<Location>
+                {
+                    new Location {Id = new Guid("5f98e499-5e86-4b66-925c-ffb3a88d508d"), Name = "House1"},
+                    new Location {Name = "Mansion"},
+                    new Location {Name = "Winter Home"},
+                };
+                await context.Locations.AddRangeAsync(locations);
+            }
+
+            if (!context.Rooms.Any())
+            {
+                Guid locationId = new Guid("5f98e499-5e86-4b66-925c-ffb3a88d508d");
+                var rooms = new List<Room>
+                {
+                    new Room {Name = "Living Room", LocationId = locationId},
+                    new Room {Name = "Kitchen", LocationId = locationId},
+                    new Room {Name = "Kitchen", LocationId = locationId}
+                };
+                await context.Rooms.AddRangeAsync(rooms);
+            }
+
+
             await context.SaveChangesAsync();
         }
     }
