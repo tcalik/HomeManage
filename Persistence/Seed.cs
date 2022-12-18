@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Microsoft.AspNetCore.Identity;
+using Persistence.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,7 @@ namespace Persistence
                 Guid locationId = new Guid("5f98e499-5e86-4b66-925c-ffb3a88d508d");
                 var rooms = new List<Room>
                 {
-                    new Room {Name = "Living Room", LocationId = locationId},
+                    new Room {Name = "Living Room", LocationId = locationId, Id = new Guid("E233C81B-ADA6-4691-B44B-71463F309FCB")},
                     new Room {Name = "Kitchen", LocationId = locationId},
                     new Room {Name = "Kitchen", LocationId = locationId}
                 };
@@ -108,9 +109,10 @@ namespace Persistence
                         DeviceTypeId=deviceTypeIdK,
                         DeviceBrandId=deviceBrandId,
                         DefaultRechangeId=rechangeObjectId,
-                        DefaulRechangeQuantity=2
+                        DefaulRechangeQuantity=2,
+                        Id = new Guid("9095b2a2-3a7f-449b-a02a-804718766dc6")
                     },
-                    new DeviceModel 
+                    new DeviceModel
                     {
                         Name = "M120 Wireless",
                         DeviceTypeId=deviceTypeIdM,
@@ -118,19 +120,46 @@ namespace Persistence
                         DefaultRechangeId=rechangeObjectId,
                         DefaulRechangeQuantity=1
                     },
-                    new DeviceModel 
+                    new DeviceModel
                     {
                         Name = "Signature K650",
                         DeviceTypeId=deviceTypeIdK,
                         DeviceBrandId=deviceBrandId,
                         DefaultRechangeId=rechangeObjectId,
-                        DefaulRechangeQuantity=2
+                        DefaulRechangeQuantity=2,
+                        Id = new Guid("FAAC92DC-BB5A-4913-AEC0-454DAB9F2BD4")
                     }
                 };
                 await context.DeviceModels.AddRangeAsync(deviceModels);
             }
-             
 
+            if (!context.IndividualDevice.Any())
+            {
+                Guid deviceModelId1 = new Guid("FAAC92DC-BB5A-4913-AEC0-454DAB9F2BD4");
+                Guid deviceModel2 = new Guid("9095b2a2-3a7f-449b-a02a-804718766dc6");
+                Guid deviceRechangeObjectId = new Guid("04E4C897-FB55-4977-A0E0-DE7C21573083");
+                Guid roomId = new Guid("E233C81B-ADA6-4691-B44B-71463F309FCB");
+
+                var devices = new List<IndividualDevice> {
+                    new IndividualDevice
+                    {
+                        Name= "Keyboard room",
+                        DeviceModelId = deviceModelId1,
+                        DeviceRechangeObjectId = deviceRechangeObjectId,
+                        RoomId = roomId,
+                        DeviceRechangeQuantity=2
+                    },
+                    new IndividualDevice
+                    {
+                        Name= "Random object",
+                        DeviceRechangeObjectId = deviceRechangeObjectId,
+                        DeviceModelId = deviceModel2,
+                        RoomId = roomId,
+                        DeviceRechangeQuantity=4
+                    }
+                };
+                await context.IndividualDevice.AddRangeAsync(devices);
+            }
 
             await context.SaveChangesAsync();
         }

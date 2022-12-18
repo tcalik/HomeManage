@@ -18,6 +18,7 @@ namespace Persistence
         public DbSet<DeviceType> DeviceTypes { get; set; }
         public DbSet<DeviceBrand> DeviceBrands { get; set; }
         public DbSet<DeviceModel> DeviceModels { get; set; }
+        public DbSet<IndividualDevice> IndividualDevice { get; set; }
         public DbSet<RoomUser> RoomsUsers { get; set; }
 
 
@@ -66,7 +67,20 @@ namespace Persistence
                .HasForeignKey(aa => aa.DeviceTypeId);
 
 
+            builder.Entity<IndividualDevice>()
+                .HasOne(m => m.DeviceModel)
+                .WithMany(d => d.IndividualDevices)
+                .IsRequired(false);
 
+            builder.Entity<IndividualDevice>()
+              .HasOne(m => m.DeviceRechangeObject)
+              .WithMany(d => d.IndividualDevices)
+              .IsRequired(false);
+
+            builder.Entity<IndividualDevice>()
+              .HasOne(m => m.Room)
+              .WithMany(d => d.IndividualDevices)
+              .HasForeignKey(aa => aa.RoomId);
 
         }
     }

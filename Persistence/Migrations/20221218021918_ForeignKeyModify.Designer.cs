@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -10,9 +11,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221218021918_ForeignKeyModify")]
+    partial class ForeignKeyModify
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
@@ -422,11 +425,15 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.DeviceModel", "DeviceModel")
                         .WithMany("IndividualDevices")
-                        .HasForeignKey("DeviceModelId");
+                        .HasForeignKey("DeviceModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.RechangeObject", "DeviceRechangeObject")
                         .WithMany("IndividualDevices")
-                        .HasForeignKey("DeviceRechangeObjectId");
+                        .HasForeignKey("DeviceRechangeObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Room", "Room")
                         .WithMany("IndividualDevices")

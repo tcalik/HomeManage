@@ -13,5 +13,6 @@ namespace Domain
         public Guid RechangeTypeId { get; set; }
         public RechangeType RechangeType { get; set; }
         public ICollection<DeviceModel> DeviceModels { get; set; } = new List<DeviceModel>();
+        public ICollection<IndividualDevice> IndividualDevices { get; set; } = new List<IndividualDevice>();
     }
 }
