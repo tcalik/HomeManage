@@ -44,7 +44,7 @@ builder.Services.AddIdentityCore<AppUser>(opt =>
     .AddEntityFrameworkStores<DataContext>()
     .AddSignInManager<SignInManager<AppUser>>();
 
-var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("test key123 longer"));
+var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"]));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt =>
