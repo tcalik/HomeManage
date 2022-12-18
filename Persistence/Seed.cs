@@ -17,7 +17,7 @@ namespace Persistence
             {
                 var users = new List<AppUser>
                 {
-                    new AppUser{DisplayName = "Tom", UserName="tom", Email="tom@test.com"},
+                    new AppUser{Id = "62a3d57f-0390-4fea-b5cb-9d12c79bf876", DisplayName = "Tom", UserName="tom", Email="tom@test.com"},
                     new AppUser{DisplayName = "Lau", UserName="lau", Email="lau@test.com"},
                     new AppUser{DisplayName = "Dor", UserName="dor", Email="dor@test.com"}
                 };
@@ -26,6 +26,16 @@ namespace Persistence
                     await userManager.CreateAsync(user, "Password12");
                 }
             }
+
+            if (!context.RoomsUsers.Any())
+            {
+                var roomsUsers = new List<RoomUser>
+                {
+                    new RoomUser {AppUserId = "62a3d57f-0390-4fea-b5cb-9d12c79bf876", RoomId=new Guid("E233C81B-ADA6-4691-B44B-71463F309FCB"), IsOwner= true}
+                };
+                await context.RoomsUsers.AddRangeAsync(roomsUsers);
+            }
+
 
 
             if (!context.Locations.Any())
