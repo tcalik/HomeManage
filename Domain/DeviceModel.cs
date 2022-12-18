@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public class Room
+    public class DeviceModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        // public string Owner { get; set; }
-        public Guid LocationId { get; set; }
-        public Location Location { get; set; }
-        public ICollection<RoomUser> RoomUsers { get; set; } = new List<RoomUser>();
+        public Guid BrandId { get; set; }
+        public DeviceBrand DeviceBrand { get; set; }
+        public Guid DefaultRechangeId { get; set; }
+        public RechangeObject DefaultRechange { get; set; }
+        public int DefaulRechangeQuantity { get; set; }
         public ICollection<IndividualDevice> IndividualDevices { get; set; } = new List<IndividualDevice>();
     }
 }
