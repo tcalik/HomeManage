@@ -49,7 +49,29 @@ namespace Persistence
                 };
                 await context.Rooms.AddRangeAsync(rooms);
             }
+            if (!context.RechangeTypes.Any())
+            {
+                var rechangeTypes = new List<RechangeType>
+                {
+                    new RechangeType {Id = new Guid("10663c84-2c2a-4994-aa56-b6c0e8ba5063"), Name = "Battery"},
+                    new RechangeType {Name = "LED Bulb"}
+                };
+                await context.RechangeTypes.AddRangeAsync(rechangeTypes);
 
+            }
+
+            if (!context.RechangeTypes.Any())
+            {
+                Guid rechangeTypeId = new Guid("10663c84-2c2a-4994-aa56-b6c0e8ba5063");
+
+                var rechangeObjects = new List<RechangeObject>
+                {
+                    new RechangeObject {Name = "AA battery", RechangeTypeId=rechangeTypeId},
+                    new RechangeObject {Name = "D battery", RechangeTypeId=rechangeTypeId}
+                };
+                await context.RechangeObjects.AddRangeAsync(rechangeObjects);
+
+            }
 
             await context.SaveChangesAsync();
         }
