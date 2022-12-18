@@ -60,18 +60,77 @@ namespace Persistence
 
             }
 
-            if (!context.RechangeTypes.Any())
+            if (!context.RechangeObjects.Any())
             {
                 Guid rechangeTypeId = new Guid("10663c84-2c2a-4994-aa56-b6c0e8ba5063");
 
                 var rechangeObjects = new List<RechangeObject>
                 {
-                    new RechangeObject {Name = "AA battery", RechangeTypeId=rechangeTypeId},
+                    new RechangeObject {Name = "AA battery", RechangeTypeId=rechangeTypeId, Id = new Guid("04E4C897-FB55-4977-A0E0-DE7C21573083")},
                     new RechangeObject {Name = "D battery", RechangeTypeId=rechangeTypeId}
                 };
                 await context.RechangeObjects.AddRangeAsync(rechangeObjects);
 
             }
+
+            if (!context.DeviceBrands.Any())
+            {
+                var deviceBrands = new List<DeviceBrand>
+                {
+                    new DeviceBrand {Name = "Sony"},
+                    new DeviceBrand {Name = "Logitech", Id = new Guid("ba047910-a8dc-4b5f-8911-54759d60982b")}
+                };
+                await context.DeviceBrands.AddRangeAsync(deviceBrands);
+            }
+
+            if (!context.DeviceTypes.Any())
+            {
+                var deviceTypes = new List<DeviceType>
+                {
+                    new DeviceType {Name = "Keyboard", Id = new Guid("945ddfd6-8126-4473-81bb-ac88041c27c8")},
+                    new DeviceType {Name = "Controller"},
+                    new DeviceType {Name = "Mouse", Id = new Guid("49d7b280-ff2c-4778-8790-9a2d191ea474")}
+                };
+                await context.DeviceTypes.AddRangeAsync(deviceTypes);
+            }
+
+            if (!context.DeviceModels.Any())
+            {
+                Guid deviceTypeIdK = new Guid("945ddfd6-8126-4473-81bb-ac88041c27c8");
+                Guid deviceTypeIdM = new Guid("49d7b280-ff2c-4778-8790-9a2d191ea474");
+                Guid deviceBrandId = new Guid("ba047910-a8dc-4b5f-8911-54759d60982b");
+                Guid rechangeObjectId = new Guid("04E4C897-FB55-4977-A0E0-DE7C21573083");
+                var deviceModels = new List<DeviceModel>
+                {
+                    new DeviceModel
+                    {
+                        Name = "K120 Wireless",
+                        DeviceTypeId=deviceTypeIdK,
+                        DeviceBrandId=deviceBrandId,
+                        DefaultRechangeId=rechangeObjectId,
+                        DefaulRechangeQuantity=2
+                    },
+                    new DeviceModel 
+                    {
+                        Name = "M120 Wireless",
+                        DeviceTypeId=deviceTypeIdM,
+                        DeviceBrandId=deviceBrandId,
+                        DefaultRechangeId=rechangeObjectId,
+                        DefaulRechangeQuantity=1
+                    },
+                    new DeviceModel 
+                    {
+                        Name = "Signature K650",
+                        DeviceTypeId=deviceTypeIdK,
+                        DeviceBrandId=deviceBrandId,
+                        DefaultRechangeId=rechangeObjectId,
+                        DefaulRechangeQuantity=2
+                    }
+                };
+                await context.DeviceModels.AddRangeAsync(deviceModels);
+            }
+             
+
 
             await context.SaveChangesAsync();
         }

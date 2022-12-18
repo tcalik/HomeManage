@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public class RechangeObject
+    public class DeviceType
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public Guid RechangeTypeId { get; set; }
-        public RechangeType RechangeType { get; set; }
         public ICollection<DeviceModel> DeviceModels { get; set; } = new List<DeviceModel>();
     }
 }

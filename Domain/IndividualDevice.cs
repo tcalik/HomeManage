@@ -10,6 +10,7 @@ namespace Domain
     {
         public Guid Id { get; set; }
         public string Name { get; set; }    
+        public string Notes { get; set; }
         public Guid DeviceModelId { get; set; }
         public DeviceModel DeviceModel{ get; set; }
         public Guid DeviceRechangeTypeId { get; set; }

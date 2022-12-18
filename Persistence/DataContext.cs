@@ -15,8 +15,11 @@ namespace Persistence
         public DbSet<Location> Locations { get; set; }
         public DbSet<RechangeType> RechangeTypes { get; set; }
         public DbSet<RechangeObject> RechangeObjects { get; set; }
+        public DbSet<DeviceType> DeviceTypes { get; set; }
+        public DbSet<DeviceBrand> DeviceBrands { get; set; }
+        public DbSet<DeviceModel> DeviceModels { get; set; }
         public DbSet<RoomUser> RoomsUsers { get; set; }
-        
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -40,10 +43,27 @@ namespace Persistence
             .WithOne(l => l.Location)
             .HasForeignKey(aa => aa.LocationId);
 
+
             builder.Entity<RechangeObject>()
                 .HasOne(r => r.RechangeType)
                 .WithMany(o => o.RechangeObjects)
                 .HasForeignKey(aa => aa.RechangeTypeId);
+
+            builder.Entity<DeviceModel>()
+                .HasOne(r => r.DeviceBrand)
+                .WithMany(m => m.DeviceModels)
+                .HasForeignKey(aa => aa.DeviceBrandId);
+
+          builder.Entity<DeviceModel>()
+                .HasOne(k => k.DefaultRechange)
+                .WithMany(m => m.DeviceModels)
+                .HasForeignKey(aa => aa.DefaultRechangeId);
+
+
+            builder.Entity<DeviceModel>()
+               .HasOne(r => r.DeviceType)
+               .WithMany(m => m.DeviceModels)
+               .HasForeignKey(aa => aa.DeviceTypeId);
 
 
 
