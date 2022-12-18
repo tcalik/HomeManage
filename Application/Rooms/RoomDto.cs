@@ -1,4 +1,6 @@
-﻿using Application.Profiles;
+﻿using Application.Devices;
+using Application.Profiles;
+using Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +15,6 @@ namespace Application.Rooms
         public string Name { get; set; }
         public string OwnerUsername { get; set; }
         public ICollection<Profile> RoomUsers { get; set; }
+        public ICollection<IndividualDeviceDto> IndividualDeviceDto { get; set; }
     }
 }
