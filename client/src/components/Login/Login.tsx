@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import {useDispatch, useSelector} from "react-redux"
+import {userActions} from "../../store/userSlice"
+ 
 const Login: React.FC = () => {
 
   const [login, setLogin] = useState("")
   const [password, setPassword] = useState("")
+  const count = useSelector((state: any) => state.counter)
+  const dispatch = useDispatch()
 
   const handleSubmit = (event: React.FormEvent) => {
+  
     event.preventDefault();
-    axios
+    /*axios
       .post("http://localhost:5296/api/account/login", {
         email: login,
         password: password,
@@ -18,7 +23,9 @@ const Login: React.FC = () => {
       })
       .catch((err) => {
         console.log(err);
-      });
+      });*/
+     dispatch(userActions.increment())
+     console.log(count)
   };
   return (
     <div>
